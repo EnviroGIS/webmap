@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
+        <!-- 6 Назва карти -->
+        <title>
+            UNTITLED
+        </title>
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+        <script src="lib/leaflet/leaflet.js"></script>
+        <script src="lib/leaflet-google-places-autocomplete-master/src/js/leaflet-gplaces-autocomplete.js"></script>
+        <link rel="stylesheet" href="lib/leaflet-google-places-autocomplete-master/src/css/leaflet-gplaces-autocomplete.css" />
+        <!-- AJAX, GOOGLE API -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA85rH-shSVGTftaXcECnFRT3LKfbpVg3w&libraries=places"></script>
+        <!-- Data Source -->
+        <script src="data/reg.geojson" ></script>
+        <!-- Стиль карти -->
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            html, body, #map {
+                height: 350px;
+                width: 800px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="map"></div>
+
+        <script>
+            // Ініціюємо карту
+            var map = L.map('map');
+            // 39 Вказуємо межі ділянки відображення
+            var southWest = L.latLng(40.00, 20.00),
+            northEast = L.latLng(55.00, 43.00),
+            bounds = L.latLngBounds(southWest, northEast);
+            // 43 Вказуємо центральну точку відображення та рівень зближення
+            map.setView([49.03, 31.50],8);
+            map.setMaxBounds(bounds);
+            map.setMinZoom(0);
+            // 47 Підвантажуємо basemap
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=access-token', {
+                maxZoom: 18,
+                attribution: '<a href="https://www.google.com.ua/search?q=%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BDc%D1%8C%D0%BA%D0%B8%D0%B9+%D0%BD%D0%BF%D0%BF&oq=%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BDc%D1%8C%D0%BA%D0%B8%D0%B9+%D0%BD%D0%BF%D0%BF&aqs=chrome..69i57j0.9969j0j7&sourceid=chrome&ie=UTF-8">Слобожанський НПП</a> |' + 
+                    '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                id: 'mapbox.streets'
+            }).addTo(map);
+            // 55 Ініціюємо шар областей
+            var regionLayer
+            // 57 Функція виділення областей при наведенні
+            function highlightFeature(e){
+                var layer = e.target;
+                layer.setStyle(
+                    {
+                    weight: 3,
+                    color: 'red',
+                    fillColor: 'orange',
+                    fillOpacity: 0.3
+                    }
+                );
+                if(!L.Browser.ie && !L.Browser.opera){
+                layer.bringToBack();
+                }
+            };
+            // 72 Функція повернення до звичайного стилю коли курсор не наводиться на область
+
+
+
+            // 76 Функція приближення до обраної області
+
+
+
+            // 80 Вказуємо правила застосування попередніх функцій 
+
+
+
+
+
+
+
+
+
+            // 90 Вказуємо базовий стиль для шару областей
+            function regStyle(feature){
+                return {
+                    fillColor: 'orange',
+                    weight: 5,
+                    fillOpacity: 1,
+                    color: 'white',
+                    dashArray: 3,
+                    opacity: 0.6,
+                }
+            };
+            // 101 Додаємо шар областей
+            regionLayer = L.geoJson(reg, {
+                style: regStyle,
+
+            }).addTo(map)
+            // 106 Правило відображення шару областей на різних рівнях зближення
+
+
+
+
+            // 111 Функція відображення атрибутивної інформації у форматі pop-up
+
+
+
+
+
+
+
+            // 119 Вказуємо базовий стиль для шару точок
+            function pointStyle(feature){
+                return {
+                    radius: 15,
+                    fillColor: "green",
+                    color: "blue",
+                    weight: 1,
+                    opacity: 0.6,
+                    fillOpacity: 0.6   
+                }
+            };
+            // 130 Додаємо шар точок
+            $.getJSON("data/cnap.geojson", function(response){
+                console.log("response", response);
+
+                var cnap = new L.geoJson(response,{
+                style: pointStyle,
+                pointToLayer: function (feature, latlng) {
+                    var circle =  L.circleMarker(latlng,pointStyle);
+                    return circle;
+                },
+
+                    }).addTo(map);
+                cnap.bringToFront();
+            });
+            // 144 Додаємо пошукову систему
+            new L.Control.GPlaceAutocomplete().addTo(map);
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
