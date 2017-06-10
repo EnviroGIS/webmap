@@ -43,11 +43,11 @@
             // 43 Вказуємо центральну точку відображення та рівень зближення
             map.setView([49.03, 31.50],8);
             map.setMaxBounds(bounds);
-            map.setMinZoom(0);
+            map.setMinZoom(5);
             // 47 Підвантажуємо basemap
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=access-token', {
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibXlrb2xhLWtvenlyIiwiYSI6ImNpemNzeHBhaDAwNHkycW8wZm40OHptdTMifQ.6q-bTx4fwm9Ch-knzk1i3Q', {
                 maxZoom: 18,
-                attribution: '<a href="https://www.google.com.ua/search?q=%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BDc%D1%8C%D0%BA%D0%B8%D0%B9+%D0%BD%D0%BF%D0%BF&oq=%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BDc%D1%8C%D0%BA%D0%B8%D0%B9+%D0%BD%D0%BF%D0%BF&aqs=chrome..69i57j0.9969j0j7&sourceid=chrome&ie=UTF-8">Слобожанський НПП</a> |' + 
+                attribution: '<a href="http://pzf.gis.kh.ua/">Слобожанський НПП</a> |' + 
                     '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | ' +
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                 id: 'mapbox.streets'
