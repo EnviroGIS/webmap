@@ -137,24 +137,24 @@
                     var circle =  L.circleMarker(latlng,pointStyle);
                     return circle;
                 },
-
+                onEachFeature: onEachFeaturePointsPopup,
                     }).addTo(map);
                 cnap.bringToFront();
             });
             // 144 Додаємо пошукову систему
-            new L.Control.GPlaceAutocomplete().addTo(map);
-
-
-
-
-
-
-
-
-
-
-
-
+            new L.Control.GPlaceAutocomplete({
+            callback: function(location){
+                map.panTo([
+                    location.geometry.location.lat(),
+                    location.geometry.location.lng()
+                ]);
+                map.fitBounds([
+                    [location.geometry.viewport.getSouthWest().lat(),
+                    location.geometry.viewport.getSouthWest().lng()],
+                    [location.geometry.viewport.getNorthEast().lat(),
+                    location.geometry.viewport.getNorthEast().lng()]
+                ]);
+            }}).addTo(map);
         </script>
     </body>
 </html>
