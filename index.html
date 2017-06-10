@@ -107,22 +107,22 @@
                 onEachFeature : onEachFeatureReg
             }).addTo(map)
             // 106 Правило відображення шару областей на різних рівнях зближення
-
-
-
-
+            map.on('zoomend ', function(e) {
+                if ( map.getZoom() > 7 ){ map.removeLayer( regionLayer )}
+                else if ( map.getZoom() <= 7 ){ map.addLayer( regionLayer )}
+            }); 
             // 111 Функція відображення атрибутивної інформації у форматі pop-up
-
-
-
-
-
-
-
+            function onEachFeaturePointsPopup(feature, layer){
+                var popupContent = (feature.properties.name+'<br>'+'<br>'+
+                    feature.properties.schedule+'<br>'+'<br>'+
+                    '<a href="'+feature.properties.url+'">Офіційний сайт</a>'
+                    );  
+                layer.bindPopup(popupContent);
+            };
             // 119 Вказуємо базовий стиль для шару точок
             function pointStyle(feature){
                 return {
-                    radius: 15,
+                    radius: 4,
                     fillColor: "green",
                     color: "blue",
                     weight: 1,
