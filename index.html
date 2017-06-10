@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
         <!-- 6 Назва карти -->
         <title>
-            UNTITLED
+            GitHub у Слобожанському НПП
         </title>
         <!-- Leaflet -->
         <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
@@ -24,13 +24,16 @@
                 margin: 0;
             }
             html, body, #map {
-                height: 350px;
-                width: 800px;
+                height: 100%;
+                width: 100%;
             }
         </style>
     </head>
 
     <body>
+        <div id="header">
+            <h1 style="position: fixed; top: 0px; left: 10%; z-index: 9999; width: 80%; background-color: #cccccc; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 6px; box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);">GitHub у Слобожанському НПП</h1>
+        </div>
         <div id="map"></div>
 
         <script>
@@ -41,7 +44,7 @@
             northEast = L.latLng(55.00, 43.00),
             bounds = L.latLngBounds(southWest, northEast);
             // 43 Вказуємо центральну точку відображення та рівень зближення
-            map.setView([49.03, 31.50],8);
+            map.setView([49.03, 31.50],6);
             map.setMaxBounds(bounds);
             map.setMinZoom(0);
             // 47 Підвантажуємо basemap
