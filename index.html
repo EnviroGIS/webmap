@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
         <!-- 6 Назва карти -->
         <title>
-            Just Title. GitHub
+            Just Title. GitHub у Слобожанському НПП
         </title>
         <!-- Leaflet -->
         <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
@@ -24,13 +24,16 @@
                 margin: 0;
             }
             html, body, #map {
-                height: 350px;
-                width: 800px;
+                height: 100%;
+                width: 100%;
             }
         </style>
     </head>
 
     <body>
+        <div id="header">
+            <h1 style="position: fixed; bottom: 0px; left: 25%; z-index: 9999; width: 50%; background-color: #cccccc; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 6px; box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);">GitHub у Слобожанському НПП</h1>
+        </div>
         <div id="map"></div>
 
         <script>
@@ -41,13 +44,13 @@
             northEast = L.latLng(55.00, 43.00),
             bounds = L.latLngBounds(southWest, northEast);
             // 43 Вказуємо центральну точку відображення та рівень зближення
-            map.setView([49.03, 31.50],8);
+            map.setView([49.03, 31.50],6);
             map.setMaxBounds(bounds);
-            map.setMinZoom(0);
+            map.setMinZoom(5);
             // 47 Підвантажуємо basemap
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=access-token', {
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibXlrb2xhLWtvenlyIiwiYSI6ImNpemNzeHBhaDAwNHkycW8wZm40OHptdTMifQ.6q-bTx4fwm9Ch-knzk1i3Q', {
                 maxZoom: 18,
-                attribution: '<a href="https://www.google.com.ua/search?q=%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BDc%D1%8C%D0%BA%D0%B8%D0%B9+%D0%BD%D0%BF%D0%BF&oq=%D1%81%D0%BB%D0%BE%D0%B1%D0%BE%D0%B6%D0%B0%D0%BDc%D1%8C%D0%BA%D0%B8%D0%B9+%D0%BD%D0%BF%D0%BF&aqs=chrome..69i57j0.9969j0j7&sourceid=chrome&ie=UTF-8">Слобожанський НПП</a> |' + 
+                attribution: '<a href="http://pzf.gis.kh.ua/">Слобожанський НПП</a> |' + 
                     '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | ' +
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                 id: 'mapbox.streets'
@@ -70,29 +73,29 @@
                 }
             };
             // 72 Функція повернення до звичайного стилю коли курсор не наводиться на область
-
-
-
+            function resetHighlight(e){
+                regionLayer.resetStyle(e.target);
+            };
             // 76 Функція приближення до обраної області
-
-
-
+            function zoomToFeature(e){
+                map.fitBounds(e.target.getBounds());
+            };
             // 80 Вказуємо правила застосування попередніх функцій 
-
-
-
-
-
-
-
-
-
+            function onEachFeatureReg(feature, layer) {
+                layer.on(
+                    {
+                        mouseover : highlightFeature,
+                        mouseout : resetHighlight,
+                        click : zoomToFeature
+                    }
+                )
+            };
             // 90 Вказуємо базовий стиль для шару областей
             function regStyle(feature){
                 return {
                     fillColor: 'orange',
-                    weight: 5,
-                    fillOpacity: 1,
+                    weight: 2,
+                    fillOpacity: 0.1,
                     color: 'white',
                     dashArray: 3,
                     opacity: 0.6,
@@ -101,25 +104,25 @@
             // 101 Додаємо шар областей
             regionLayer = L.geoJson(reg, {
                 style: regStyle,
-
+                onEachFeature : onEachFeatureReg
             }).addTo(map)
             // 106 Правило відображення шару областей на різних рівнях зближення
-
-
-
-
+            map.on('zoomend ', function(e) {
+                if ( map.getZoom() > 7 ){ map.removeLayer( regionLayer )}
+                else if ( map.getZoom() <= 7 ){ map.addLayer( regionLayer )}
+            }); 
             // 111 Функція відображення атрибутивної інформації у форматі pop-up
-
-
-
-
-
-
-
+            function onEachFeaturePointsPopup(feature, layer){
+                var popupContent = (feature.properties.name+'<br>'+'<br>'+
+                    feature.properties.schedule+'<br>'+'<br>'+
+                    '<a href="'+feature.properties.url+'">Офіційний сайт</a>'
+                    );  
+                layer.bindPopup(popupContent);
+            };
             // 119 Вказуємо базовий стиль для шару точок
             function pointStyle(feature){
                 return {
-                    radius: 15,
+                    radius: 4,
                     fillColor: "green",
                     color: "blue",
                     weight: 1,
