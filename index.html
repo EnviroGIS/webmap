@@ -137,7 +137,7 @@
                     var circle =  L.circleMarker(latlng,pointStyle);
                     return circle;
                 },
-
+                onEachFeature: onEachFeaturePointsPopup,
                     }).addTo(map);
                 cnap.bringToFront();
             });
