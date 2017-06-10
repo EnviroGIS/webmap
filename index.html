@@ -70,23 +70,23 @@
                 }
             };
             // 72 Функція повернення до звичайного стилю коли курсор не наводиться на область
-
-
-
+            function resetHighlight(e){
+                regionLayer.resetStyle(e.target);
+            };
             // 76 Функція приближення до обраної області
-
-
-
+            function zoomToFeature(e){
+                map.fitBounds(e.target.getBounds());
+            };
             // 80 Вказуємо правила застосування попередніх функцій 
-
-
-
-
-
-
-
-
-
+            function onEachFeatureReg(feature, layer) {
+                layer.on(
+                    {
+                        mouseover : highlightFeature,
+                        mouseout : resetHighlight,
+                        click : zoomToFeature
+                    }
+                )
+            };
             // 90 Вказуємо базовий стиль для шару областей
             function regStyle(feature){
                 return {
